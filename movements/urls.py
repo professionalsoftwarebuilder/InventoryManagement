@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from django.utils.translation import ugettext_lazy as _
 
@@ -31,7 +31,7 @@ from .views import (PurchaseRequestCreateView, PurchaseRequestDeleteView,
                     PurchaseOrderStatusDeleteView, PurchaseOrderStatusListView,
                     PurchaseOrderStatusUpdateView)
 
-urlpatterns = patterns('movements.views',
+urlpatterns = [
     url(r'^purchase/request/state/list/$', PurchaseRequestStateListView.as_view(), name='purchase_request_state_list'),
     url(r'^purchase/request/state/create/$', PurchaseRequestStateCreateView.as_view(), name='purchase_request_state_create'),
     url(r'^purchase/request/state/(?P<pk>\d+)/update/$', PurchaseRequestStateUpdateView.as_view(), name='purchase_request_state_update'),
@@ -74,4 +74,4 @@ urlpatterns = patterns('movements.views',
     url(r'^purchase/order/item/(?P<pk>\d+)/delete/$', PurchaseOrderItemDeleteView.as_view(), name='purchase_order_item_delete'),
     url(r'^purchase/order/item/(?P<object_id>\d+)/close/$', 'purchase_order_item_close', (), 'purchase_order_item_close'),
     url(r'^purchase/order/item/(?P<object_id>\d+)/transfer/$', 'purchase_order_item_transfer', (), 'purchase_order_item_transfer'),
-)
+]

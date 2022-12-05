@@ -4,9 +4,9 @@ import os
 
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
@@ -53,7 +53,7 @@ def generic_photos(request, model, object_id, max_photos=5, extra_context={}):
 
     extra_context.update({
         'title': _(u'photos for%(object_name)s%(max_photos)s: %(object)s') % {
-                'object_name': ' %s' % unicode(extra_context['object_name']) if 'object_name' in extra_context else '',
+                'object_name': ' %s' % str(extra_context['object_name']) if 'object_name' in extra_context else '',
                 'object': model_instance,
                 'max_photos': (_(u' (maximum of %s)') % max_photos if max_photos else '')
             },
@@ -81,7 +81,7 @@ def generic_photos(request, model, object_id, max_photos=5, extra_context={}):
         # subform_dict is persistent between views, clear it explicitly
         extra_context.update({'subforms_dict': []})
 
-    return render_to_response('photos/photos.html', extra_context,
+    return render(request, 'photos/photos.html', extra_context,
         context_instance=RequestContext(request))
 
 
@@ -97,7 +97,7 @@ def generic_photo_mark_main(request, object_id):
         messages.success(request, _(u'The main photo has been changed.'))
         return HttpResponseRedirect(request.POST.get('next', '/'))
 
-    return render_to_response('generic_views/generic_confirm.html', {
+    return render(request, 'generic_views/generic_confirm.html', {
         'next': request.META.get('HTTP_REFERER', reverse('home')),
         'previous': request.META.get('HTTP_REFERER', reverse('home')),
         'object': photo.content_object,
@@ -124,7 +124,7 @@ def generic_photo_delete(request, object_id):
 
         return HttpResponseRedirect(request.POST.get('next', reverse('home')))
 
-    return render_to_response('generic_views/generic_confirm.html', {
+    return render(request, 'generic_views/generic_confirm.html', {
         'next': request.META.get('HTTP_REFERER', reverse('home')),
         'previous': request.META.get('HTTP_REFERER', reverse('home')),
         'title': _(u'Are you sure you wish to delete this photo?'),

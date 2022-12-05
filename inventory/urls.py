@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.utils.translation import ugettext_lazy as _
 
 from photos.views import generic_photos
@@ -23,7 +23,7 @@ from .views import (InventoryCreateView, InventoryDeleteView,
                     TransactionDeleteView, TransactionDetailView,
                     TransactionUpdateView)
 
-urlpatterns = patterns('inventory.views',
+urlpatterns = [
     url(r'^template/list/$', TemplateListView.as_view(), name='template_list'),
     url(r'^template/create/$', TemplateCreateView.as_view(), name='template_create'),
     url(r'^template/(?P<pk>\d+)/update/$', TemplateUpdateView.as_view(), name='template_update'),
@@ -60,4 +60,4 @@ urlpatterns = patterns('inventory.views',
     url(r'^supplier/(?P<pk>\d+)/delete/$', SupplierDeleteView.as_view(), name='supplier_delete'),
     url(r'^supplier/(?P<object_id>\d+)/assign/itemtemplates/$', 'supplier_assign_remove_itemtemplates', (), 'supplier_assign_itemtemplates'),
     url(r'^supplier/(?P<pk>\d+)/purchase/orders/$', SupplierPurchaseOrdersListView.as_view(), name='supplier_purchase_orders'),
-)
+]

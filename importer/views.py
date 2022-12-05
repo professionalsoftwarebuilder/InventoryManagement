@@ -3,15 +3,15 @@ import csv
 import tempfile
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 from django.forms.formsets import formset_factory
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
-from django.utils.simplejson import dumps, loads
+from json import dumps, loads
 from django.utils.http import urlencode
 
 
@@ -63,9 +63,9 @@ def import_file(request):
         form = DocumentForm(models=models)
 
 
-    return render_to_response('generic_form.html', {
-        'form':form,
-        'title':_(u'Upload a file to import'),
+    return render(request, 'generic_form.html', {
+        'form': form,
+        'title': _(u'Upload a file to import'),
     },
     context_instance=RequestContext(request))    
     
@@ -73,7 +73,7 @@ def import_file(request):
 def download_last_settings(request):
     settings = request.session.get('last_import_settings', None)
     if settings:
-        content=dumps(settings)
+        content = dumps(settings)
         response = HttpResponse(content, content_type='text/plain', mimetype='application/json')
         response['Content-Length'] = len(content)
         response['Content-Disposition'] = "attachment; filename=last_import_settings.json"

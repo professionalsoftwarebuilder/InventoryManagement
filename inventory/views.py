@@ -1,10 +1,10 @@
 from __future__ import absolute_import
 
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, ListView
@@ -269,7 +269,7 @@ def inventory_list_transactions(request, object_id):
     inventory = get_object_or_404(Inventory, pk=object_id)
     form = InventoryForm_view(instance=inventory)
 
-    return render_to_response('generic_views/generic_detail.html', {
+    return render(request, 'generic_views/generic_detail.html', {
         'object_name': _(u'Inventory'),
         'object': inventory,
         'form': form,
@@ -302,7 +302,7 @@ def inventory_create_transaction(request, object_id):
     else:
         form = InventoryTransactionForm(initial={'inventory': inventory})
 
-    return render_to_response('generic_views/generic_form.html', {
+    return render(request, 'generic_views/generic_form.html', {
         'form': form,
         'object': inventory,
         'title': _(u'Add new transaction'),

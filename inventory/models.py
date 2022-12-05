@@ -1,9 +1,10 @@
 import datetime
 
 from django.contrib.auth.models import User, UserManager
-from django.contrib.contenttypes import generic
+#from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -62,7 +63,7 @@ class Log(models.Model):
 
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey()
+    content_object = GenericForeignKey()
 
     def __unicode__(self):
         return '%s, %s - %s' % (self.timedate, self.action, self.content_object)

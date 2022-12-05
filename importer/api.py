@@ -1,7 +1,9 @@
 import csv
 
 from django.utils.translation import ugettext_lazy as _
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import smart_text
+from rpm import file
+from django.contrib import messages
 
 def perform_import(csvfilename, model, mappings, dialect_settings=None, start_row=1, dryrun=True):
     csvfile = open(csvfilename, 'rb')
@@ -18,7 +20,7 @@ def perform_import(csvfilename, model, mappings, dialect_settings=None, start_ro
     try:
         csvfd = file(csvfilename, 'r')
     except IOError:
-        self.error(_(u'Could not open specified csv file, %s, or it does not exist') % datafile, 0)
+        messages.error(_(u'Could not open specified csv file, %s, or it does not exist') % dialect, 0)
     else:
         # CSV Reader returns an iterable, but as we possibly need to
         # perform list commands and since list is an acceptable iterable, 
@@ -30,7 +32,7 @@ def perform_import(csvfilename, model, mappings, dialect_settings=None, start_ro
     errors = 0
     results = []
     for line, column in enumerate(csvfile[start_row-1:], start_row):
-        column = [smart_unicode(c) for c in column]
+        column = [smart_text(c) for c in column]
         model_line = {}
         line_error = False
         for field_exp in mappings:
@@ -48,7 +50,7 @@ def perform_import(csvfilename, model, mappings, dialect_settings=None, start_ro
 
                     model_line[field_exp['model_field']] = value
 
-                except Exception, err:
+                except Exception as err:
                     value = None
                     line_error = True
                     errors += 1
@@ -61,11 +63,10 @@ def perform_import(csvfilename, model, mappings, dialect_settings=None, start_ro
                     entry = model.objects.create(**model_line)
 
                 imported_lines += 1
-        except Exception, err:
+        except Exception as err:
             errors += 1
             results.append(_(u'Import error, line: %(line)s, error: %(err)s') % {'line':line, 'err':err})
         
-
     results.append(_(u'Processed %s lines.') % len(csvfile[start_row-1:]))
     results.append(_(u'Imported %s lines.') % imported_lines)
     results.append(_(u'There were %s errors.') % errors)

@@ -6,10 +6,13 @@ except ImportError:
 
 from django import forms
 from django.conf import settings
-from django.contrib.formtools.wizard import FormWizard
+#from formtools.wizard.forms import  FormWizard
+import formwizard as FormWizard
 from django.forms.forms import BoundField
 from django.forms.formsets import BaseFormSet
-from django.utils.hashcompat import md5_constructor
+
+from hashlib import md5 as md5_constructor
+
 
 __all__ = ('security_hash', 'BoundFormWizard')
 
@@ -28,7 +31,7 @@ def security_hash(request, form, exclude=None, *args):
         for _form in form.forms + [form.management_form]:
             for bf in _form:
                 value = bf.field.clean(bf.data) or ''
-                if isinstance(value, basestring):
+                if isinstance(value, str):
                     value = value.strip()
                 data.append((bf.name, value))
     else:
@@ -36,7 +39,7 @@ def security_hash(request, form, exclude=None, *args):
             if bf.name in exclude:
                 continue
             value = bf.field.clean(bf.data) or ''
-            if isinstance(value, basestring):
+            if isinstance(value, str):
                 value = value.strip()
             data.append((bf.name, value))
     data.extend(args)

@@ -53,7 +53,7 @@ class PurchaseRequestItem(models.Model):
         verbose_name_plural = _(u'Purchase request items')
 
     def __unicode__(self):
-        return unicode(self.item_template)
+        return str(self.item_template)
 
     @models.permalink
     def get_absolute_url(self):
@@ -126,7 +126,7 @@ class PurchaseOrderItem(models.Model):
         verbose_name_plural = _(u'Purchase order items')
 
     def __unicode__(self):
-        return unicode(self.item_template)
+        return str(self.item_template)
 
     @models.permalink
     def get_absolute_url(self):

@@ -4,10 +4,10 @@ import datetime
 
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.forms.formsets import formset_factory
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext
 from django.utils.translation import ugettext as _
 
@@ -181,7 +181,7 @@ def purchase_request_view(request, object_id):
         ]
     )
 
-    return render_to_response('generic_views/generic_detail.html', {
+    return render(request, 'generic_views/generic_detail.html', {
         'title': _(u'Details for purchase request: %s') % purchase_request,
         'object': purchase_request,
         'form': form,
@@ -216,7 +216,7 @@ def purchase_request_item_create(request, object_id):
     else:
         form = PurchaseRequestItemForm(initial={'purchase_request': purchase_request})
 
-    return render_to_response('generic_views/generic_form.html', {
+    return render(render, 'generic_views/generic_form.html', {
         'form': form,
         'title': _(u'add new purchase request item'),
     }, context_instance=RequestContext(request))
@@ -242,7 +242,7 @@ def purchase_request_close(request, object_id):
         messages.success(request, msg, fail_silently=True)
         return redirect(purchase_request.get_absolute_url())
 
-    return render_to_response('generic_views/generic_confirm.html', data,
+    return render(request, 'generic_views/generic_confirm.html', data,
         context_instance=RequestContext(request))
 
 
@@ -266,7 +266,7 @@ def purchase_request_open(request, object_id):
         messages.success(request, msg, fail_silently=True)
         return redirect(purchase_request.get_absolute_url())
 
-    return render_to_response('generic_views/generic_confirm.html', data,
+    return render(request, 'generic_views/generic_confirm.html', data,
         context_instance=RequestContext(request))
 
 
@@ -344,7 +344,7 @@ def purchase_order_wizard(request, object_id):
             return redirect('purchase_order_list')
     else:
         formset = ItemsFormSet(initial=initial)
-    return render_to_response('generic_views/generic_form.html', {
+    return render(request, 'generic_views/generic_form.html', {
         'form': formset,
         'form_display_mode_table': True,
         'title': _(u'Purchase order wizard, using purchase request source: <a href="%(url)s">%(name)s</a>') % {'url': purchase_request.get_absolute_url(), 'name': purchase_request},
@@ -356,7 +356,7 @@ def purchase_order_view(request, object_id):
     purchase_order = get_object_or_404(PurchaseOrder, pk=object_id)
     form = PurchaseOrderForm_view(instance=purchase_order)
 
-    return render_to_response('generic_views/generic_detail.html', {
+    return render(request, 'generic_views/generic_detail.html', {
         'title': _(u'Details for purchase order: %s') % purchase_order,
         'object': purchase_order,
         'form': form,
@@ -400,7 +400,7 @@ def purchase_order_close(request, object_id):
         messages.success(request, msg, fail_silently=True)
         return redirect(purchase_order.get_absolute_url())
 
-    return render_to_response('generic_views/generic_confirm.html', data,
+    return render(request, 'generic_views/generic_confirm.html', data,
         context_instance=RequestContext(request))
 
 
@@ -424,7 +424,7 @@ def purchase_order_open(request, object_id):
         messages.success(request, msg, fail_silently=True)
         return redirect(purchase_order.get_absolute_url())
 
-    return render_to_response('generic_views/generic_confirm.html', data,
+    return render(request, 'generic_views/generic_confirm.html', data,
         context_instance=RequestContext(request))
 
 
@@ -535,7 +535,7 @@ def transfer_to_inventory(request, object_to_transfer):
         'form_display_mode_table': True
     })
 
-    return render_to_response('generic_views/generic_form.html', context,
+    return render(request, 'generic_views/generic_form.html', context,
         context_instance=RequestContext(request))
 
 
@@ -574,7 +574,7 @@ def purchase_order_item_close(request, object_id):
         messages.success(request, msg, fail_silently=True)
         return redirect(purchase_order_item.get_absolute_url())
 
-    return render_to_response('generic_views/generic_confirm.html', data,
+    return render(request, 'generic_views/generic_confirm.html', data,
         context_instance=RequestContext(request))
 
 
@@ -591,7 +591,7 @@ def purchase_order_item_create(request, object_id):
     else:
         form = PurchaseOrderItemForm(initial={'purchase_order': purchase_order})
 
-    return render_to_response('generic_views/generic_form.html', {
+    return render(request, 'generic_views/generic_form.html', {
         'form': form,
         'title': _(u'Add new purchase order item'),
     }, context_instance=RequestContext(request))
