@@ -13,7 +13,7 @@ from assets.models import Person, Item, ItemGroup
 from generic_views.views import (GenericCreateView, GenericDeleteView,
                                  GenericDetailView, GenericListView,
                                  GenericUpdateView, generic_assign_remove)
-from inventory import location_filter
+#from inventory import location_filter
 from photos.views import generic_photos
 
 from .forms import (InventoryForm, InventoryForm_view, InventoryTransactionForm,

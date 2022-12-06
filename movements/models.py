@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from dynamic_search.api import register
@@ -15,9 +16,8 @@ class PurchaseRequestStatus(models.Model):
     def __unicode__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('purchase_request_state_list', [])
+        return reverse('purchase_request_state_list', args=([]))
 
 
 class PurchaseRequest(models.Model):
@@ -26,7 +26,7 @@ class PurchaseRequest(models.Model):
     required_date = models.DateField(null=True, blank=True, verbose_name=_(u'Date required'))
     budget = models.PositiveIntegerField(null=True, blank=True, verbose_name=_(u'Budget'))
     active = models.BooleanField(default=True, verbose_name=_(u'Active'))
-    status = models.ForeignKey(PurchaseRequestStatus, null=True, blank=True, verbose_name=_(u'Status'))
+    status = models.ForeignKey(PurchaseRequestStatus, on_delete=models.CASCADE, null=True, blank=True, verbose_name=_(u'Status'))
     originator = models.CharField(max_length=64, null=True, blank=True, verbose_name=_(u'Originator'))
     notes = models.TextField(null=True, blank=True, verbose_name=_(u'Notes'))
 
@@ -37,14 +37,13 @@ class PurchaseRequest(models.Model):
     def __unicode__(self):
         return '#%s (%s)' % (self.user_id if self.user_id else self.id, self.issue_date)
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('purchase_request_view', [str(self.id)])
+        return reverse('purchase_request_view', args=([str(self.id)]))
 
 
 class PurchaseRequestItem(models.Model):
-    purchase_request = models.ForeignKey(PurchaseRequest, related_name='items', verbose_name=_(u'Purchase request'))
-    item_template = models.ForeignKey(ItemTemplate, verbose_name=_(u'Item template'))
+    purchase_request = models.ForeignKey(PurchaseRequest, on_delete=models.CASCADE, related_name='items', verbose_name=_(u'Purchase request'))
+    item_template = models.ForeignKey(ItemTemplate, on_delete=models.CASCADE, verbose_name=_(u'Item template'))
     qty = models.PositiveIntegerField(verbose_name=_(u'Quantity'))
     notes = models.TextField(null=True, blank=True, verbose_name=_(u'Notes'))
 
@@ -55,9 +54,8 @@ class PurchaseRequestItem(models.Model):
     def __unicode__(self):
         return str(self.item_template)
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('purchase_request_view', [str(self.purchase_request.id)])
+        return reverse('purchase_request_view', args=([str(self.purchase_request.id)]))
 
 
 class PurchaseOrderStatus(models.Model):
@@ -70,20 +68,19 @@ class PurchaseOrderStatus(models.Model):
     def __unicode__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('purchase_order_state_list', [])
+        return reverse('purchase_order_state_list', args=([]))
 
 
 class PurchaseOrder(models.Model):
     user_id = models.CharField(max_length=32, null=True, blank=True, verbose_name=_(u'User defined ID'))
-    purchase_request = models.ForeignKey(PurchaseRequest, null=True, blank=True, verbose_name=_(u'Purchase request'))
-    supplier = models.ForeignKey(Supplier, related_name='purchase_orders', verbose_name=_(u'Supplier'))
+    purchase_request = models.ForeignKey(PurchaseRequest, on_delete=models.CASCADE, null=True, blank=True, verbose_name=_(u'Purchase request'))
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, related_name='purchase_orders', verbose_name=_(u'Supplier'))
     issue_date = models.DateField(auto_now_add=True, verbose_name=_(u'Issue date'))
     required_date = models.DateField(null=True, blank=True, verbose_name=_(u'Date required'))
     active = models.BooleanField(default=True, verbose_name=_(u'Active'))
     notes = models.TextField(null=True, blank=True, verbose_name=_(u'Notes'))
-    status = models.ForeignKey(PurchaseOrderStatus, null=True, blank=True, verbose_name=_(u'Status'))
+    status = models.ForeignKey(PurchaseOrderStatus, on_delete=models.CASCADE, null=True, blank=True, verbose_name=_(u'Status'))
 
     class Meta:
         verbose_name = _(u'Purchase order')
@@ -92,9 +89,8 @@ class PurchaseOrder(models.Model):
     def __unicode__(self):
         return '#%s (%s)' % (self.user_id if self.user_id else self.id, self.issue_date)
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('purchase_order_view', [str(self.id)])
+        return reverse('purchase_order_view', args=([str(self.id)]))
 
 
 class PurchaseOrderItemStatus(models.Model):
@@ -107,17 +103,16 @@ class PurchaseOrderItemStatus(models.Model):
     def __unicode__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('purchase_order_item_state_list', [])
+        return reverse('purchase_order_item_state_list', args=([]))
 
 
 class PurchaseOrderItem(models.Model):
-    purchase_order = models.ForeignKey(PurchaseOrder, related_name='items', verbose_name=_(u'Purchase order'))
-    item_template = models.ForeignKey(ItemTemplate, verbose_name=_(u'Item template'))
+    purchase_order = models.ForeignKey(PurchaseOrder, on_delete=models.CASCADE, related_name='items', verbose_name=_(u'Purchase order'))
+    item_template = models.ForeignKey(ItemTemplate, on_delete=models.CASCADE, verbose_name=_(u'Item template'))
     agreed_price = models.PositiveIntegerField(null=True, blank=True, verbose_name=_(u'Agreed price'))
     active = models.BooleanField(default=True, verbose_name=_(u'Active'))
-    status = models.ForeignKey(PurchaseOrderItemStatus, null=True, blank=True, verbose_name=_(u'Status'))
+    status = models.ForeignKey(PurchaseOrderItemStatus, on_delete=models.CASCADE, null=True, blank=True, verbose_name=_(u'Status'))
     qty = models.PositiveIntegerField(verbose_name=_(u'Quantity'))
     received_qty = models.PositiveIntegerField(default=0, null=True, blank=True, verbose_name=_(u'received'))
 
@@ -128,9 +123,8 @@ class PurchaseOrderItem(models.Model):
     def __unicode__(self):
         return str(self.item_template)
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('purchase_order_view', [str(self.purchase_order.id)])
+        return reverse('purchase_order_view', args=([str(self.purchase_order.id)]))
 
 
 register(PurchaseRequestStatus, _(u'Purchase request status'), ['name'])

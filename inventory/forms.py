@@ -12,6 +12,7 @@ from .models import (Inventory, InventoryTransaction, ItemTemplate, Location,
 class LocationForm_view(DetailForm):
     class Meta:
         model = Location
+        fields = '__all__'
 
 
 class ItemTemplateForm(forms.ModelForm):
@@ -29,23 +30,26 @@ class ItemTemplateForm_view(DetailForm):
 class LogForm(forms.ModelForm):
     class Meta:
         model = Log
+        fields = '__all__'
 
 
 class InventoryForm(forms.ModelForm):
     class Meta:
         model = Inventory
-
+        fields = '__all__'
 
 class InventoryForm_view(DetailForm):
     class Meta:
         model = Inventory
-
+        fields = '__all__'
 
 class InventoryTransactionForm(forms.ModelForm):
     class Meta:
         model = InventoryTransaction
+        fields = '__all__'
 
 
 class SupplierForm(forms.ModelForm):
     class Meta:
         model = Supplier
+        fields = '__all__'

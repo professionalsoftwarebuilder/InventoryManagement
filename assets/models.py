@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 #from django.contrib.auth.models import User, UserManager
 #from django.contrib.contenttypes import generic
 #from django.contrib.contenttypes.models import ContentType
@@ -20,9 +21,8 @@ class State(models.Model):
     def __unicode__(self):
         return '%s (%s)' % (self.name, self.exclusive and _(u'Exclusive') or _(u'Inclusive'))
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('state_list', [])
+        return reverse('state_list', args=([]))
 
 
 class ItemStateManager(models.Manager):
@@ -31,8 +31,8 @@ class ItemStateManager(models.Manager):
 
 
 class ItemState(models.Model):
-    item = models.ForeignKey('Item', verbose_name=_(u'Item'))
-    state = models.ForeignKey(State, verbose_name=_(u'State'))
+    item = models.ForeignKey('Item', on_delete=models.CASCADE, verbose_name=_(u'Item'))
+    state = models.ForeignKey(State, on_delete=models.CASCADE, verbose_name=_(u'State'))
     date = models.DateField(auto_now_add=True, verbose_name=_(u'Date'))
 
     objects = ItemStateManager()
@@ -44,17 +44,16 @@ class ItemState(models.Model):
     def __unicode__(self):
         return _(u'%(asset)s, %(state)s since %(date)s') % {'asset': self.item, 'state': self.state.name, 'date': self.date}
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('state_update', [str(self.id)])
+        return reverse('state_update', args=([str(self.id)]))
 
 
 class Item(models.Model):
-    item_template = models.ForeignKey(ItemTemplate, related_name='items', verbose_name=_(u'Item template'))
+    item_template = models.ForeignKey(ItemTemplate, on_delete=models.CASCADE, related_name='items', verbose_name=_(u'Item template'))
     property_number = models.CharField(max_length=48, verbose_name=_(u'Asset number'))
     notes = models.TextField(blank=True, null=True, verbose_name=_(u'Notes'))
     serial_number = models.CharField(blank=True, max_length=48, null=True, verbose_name=_(u'Serial number'))
-    location = models.ForeignKey(Location, blank=True, null=True, verbose_name=_(u'Location'))
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_(u'Location'))
     active = models.BooleanField(default=True)
 
     class Meta:
@@ -62,9 +61,8 @@ class Item(models.Model):
         verbose_name = _(u'Asset')
         verbose_name_plural = _(u'Assets')
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('item_view', [str(self.id)])
+        return reverse('item_view', args=([str(self.id)]))
 
     def __unicode__(self):
         states = ', '.join([itemstate.state.name for itemstate in ItemState.objects.states_for_item(self)])
@@ -108,9 +106,8 @@ class ItemGroup(models.Model):
     def __unicode__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('group_view', [str(self.id)])
+        return reverse('group_view', args=([str(self.id)]))
 
 
 class Person(models.Model):
@@ -118,7 +115,7 @@ class Person(models.Model):
     second_last_name = models.CharField(verbose_name=_(u'Second last name'), max_length=32, blank=True, null=True)
     first_name = models.CharField(verbose_name=_(u'First name'), max_length=32)
     second_name = models.CharField(verbose_name=_(u'Second name or initial'), max_length=32, blank=True, null=True)
-    location = models.ForeignKey(Location, blank=True, null=True, verbose_name=_(u'Location'))
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_(u'Location'))
     inventory = models.ManyToManyField(Item, blank=True, null=True, verbose_name=_(u'Assigned assets'))
 
     class Meta:
@@ -126,9 +123,8 @@ class Person(models.Model):
         verbose_name = _(u'Person')
         verbose_name_plural = _(u'People')
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('person_view', [str(self.id)])
+        return reverse('person_view', args=([str(self.id)]))
 
     def __unicode__(self):
         if self.second_last_name:

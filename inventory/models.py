@@ -29,9 +29,8 @@ class Location(models.Model):
     def __unicode__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('location_view', [str(self.id)])
+        return reverse('location_view', args=([str(self.id)]))
 
 
 class ItemTemplate(models.Model):
@@ -48,9 +47,8 @@ class ItemTemplate(models.Model):
         verbose_name = _(u'Item template')
         verbose_name_plural = _(u'Item templates')
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('template_view', [str(self.id)])
+        return reverse('template_view', args=([str(self.id)]))
 
     def __unicode__(self):
         return self.description
@@ -61,49 +59,47 @@ class Log(models.Model):
     action = models.CharField(max_length=32, verbose_name=_(u'Action'))
     description = models.TextField(verbose_name=_(u'Description'), null=True, blank=True)
 
-    content_type = models.ForeignKey(ContentType)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
 
     def __unicode__(self):
         return '%s, %s - %s' % (self.timedate, self.action, self.content_object)
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('log_view', [str(self.id)])
+        return reverse('log_view', args=([str(self.id)]))
 
 
 class Inventory(models.Model):
     name = models.CharField(max_length=32, verbose_name=_(u'Name'))
-    location = models.ForeignKey(Location, verbose_name=_(u'Location'))
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, verbose_name=_(u'Location'))
 
     class Meta:
         verbose_name = _(u'Inventory')
         verbose_name_plural = _(u'Inventories')
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('inventory_view', [str(self.id)])
+        return reverse('inventory_view', args=([str(self.id)]))
 
     def __unicode__(self):
         return self.name
 
 
 class InventoryCheckPoint(models.Model):
-    inventory = models.ForeignKey(Inventory, verbose_name=_(u'Inventory'))
+    inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE, verbose_name=_(u'Inventory'))
     datetime = models.DateTimeField(default=datetime.datetime.now(), verbose_name=_(u'Date & time'))
     supplies = models.ManyToManyField(ItemTemplate, null=True, blank=True, through='InventoryCPQty', verbose_name=_(u'Supplies'))
 
 
 class InventoryCPQty(models.Model):
-    supply = models.ForeignKey(ItemTemplate, verbose_name=_(u'Supply'))
-    check_point = models.ForeignKey(InventoryCheckPoint, verbose_name=_(u'Check point'))
+    supply = models.ForeignKey(ItemTemplate, on_delete=models.CASCADE, verbose_name=_(u'Supply'))
+    check_point = models.ForeignKey(InventoryCheckPoint, on_delete=models.CASCADE, verbose_name=_(u'Check point'))
     quantity = models.IntegerField(verbose_name=_(u'Quantity'))
 
 
 class InventoryTransaction(models.Model):
-    inventory = models.ForeignKey(Inventory, related_name='transactions', verbose_name=_(u'Inventory'))
-    supply = models.ForeignKey(ItemTemplate, verbose_name=_(u'Supply'))
+    inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE, related_name='transactions', verbose_name=_(u'Inventory'))
+    supply = models.ForeignKey(ItemTemplate, on_delete=models.CASCADE, verbose_name=_(u'Supply'))
     quantity = models.IntegerField(verbose_name=_(u'Quantity'))
     date = models.DateField(default=datetime.date.today(), verbose_name=_(u'Date'))
     notes = models.TextField(null=True, blank=True, verbose_name=_(u'Notes'))
@@ -113,9 +109,8 @@ class InventoryTransaction(models.Model):
         verbose_name_plural = _(u'Inventory transactions')
         ordering = ['-date', '-id']
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('inventory_transaction_view', [str(self.id)])
+        return reverse('inventory_transaction_view', args=([str(self.id)]))
 
     def __unicode__(self):
         return "%s: '%s' qty=%s @ %s" % (self.inventory, self.supply, self.quantity, self.date)
@@ -139,9 +134,8 @@ class Supplier(models.Model):
     def __unicode__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('supplier_view', [str(self.id)])
+        return reverse('supplier_view', args=([str(self.id)]))
 
 
 register(ItemTemplate, _(u'Templates'), ['description', 'brand', 'model', 'part_number', 'notes'])
