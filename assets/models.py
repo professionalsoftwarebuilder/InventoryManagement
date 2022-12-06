@@ -96,7 +96,7 @@ class Item(models.Model):
 
 class ItemGroup(models.Model):
     name = models.CharField(verbose_name=_(u'Name'), max_length=32)
-    items = models.ManyToManyField(Item, blank=True, null=True, verbose_name=_(u'Item'))
+    items = models.ManyToManyField(Item, blank=True, verbose_name=_(u'Item'))
 
     class Meta:
         ordering = ['name']
@@ -116,7 +116,7 @@ class Person(models.Model):
     first_name = models.CharField(verbose_name=_(u'First name'), max_length=32)
     second_name = models.CharField(verbose_name=_(u'Second name or initial'), max_length=32, blank=True, null=True)
     location = models.ForeignKey(Location, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_(u'Location'))
-    inventory = models.ManyToManyField(Item, blank=True, null=True, verbose_name=_(u'Assigned assets'))
+    inventory = models.ManyToManyField(Item, blank=True, verbose_name=_(u'Assigned assets'))
 
     class Meta:
         ordering = ['last_name', 'second_last_name', 'first_name', 'second_name']

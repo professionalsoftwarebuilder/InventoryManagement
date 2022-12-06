@@ -1,5 +1,6 @@
 import datetime
 
+import django
 from django.contrib.auth.models import User, UserManager
 #from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -39,8 +40,8 @@ class ItemTemplate(models.Model):
     model = models.CharField(verbose_name=_(u'Model'), max_length=32, null=True, blank=True)
     part_number = models.CharField(verbose_name=_(u'Part number'), max_length=32, null=True, blank=True)
     notes = models.TextField(verbose_name=_(u'Notes'), null=True, blank=True)
-    supplies = models.ManyToManyField('self', null=True, blank=True, verbose_name=_(u'Supplies'))
-    suppliers = models.ManyToManyField('Supplier', null=True, blank=True, verbose_name=_(u'Suppliers'))
+    supplies = models.ManyToManyField('self', blank=True, verbose_name=_(u'Supplies'))
+    suppliers = models.ManyToManyField('Supplier', blank=True, verbose_name=_(u'Suppliers'))
 
     class Meta:
         ordering = ['description']
@@ -87,8 +88,8 @@ class Inventory(models.Model):
 
 class InventoryCheckPoint(models.Model):
     inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE, verbose_name=_(u'Inventory'))
-    datetime = models.DateTimeField(default=datetime.datetime.now(), verbose_name=_(u'Date & time'))
-    supplies = models.ManyToManyField(ItemTemplate, null=True, blank=True, through='InventoryCPQty', verbose_name=_(u'Supplies'))
+    datetime = models.DateTimeField(default=django.utils.timezone.now(), verbose_name=_(u'Date & time'))
+    supplies = models.ManyToManyField(ItemTemplate, blank=True, through='InventoryCPQty', verbose_name=_(u'Supplies'))
 
 
 class InventoryCPQty(models.Model):
@@ -101,7 +102,7 @@ class InventoryTransaction(models.Model):
     inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE, related_name='transactions', verbose_name=_(u'Inventory'))
     supply = models.ForeignKey(ItemTemplate, on_delete=models.CASCADE, verbose_name=_(u'Supply'))
     quantity = models.IntegerField(verbose_name=_(u'Quantity'))
-    date = models.DateField(default=datetime.date.today(), verbose_name=_(u'Date'))
+    date = models.DateField(default=django.utils.timezone.now(), verbose_name=_(u'Date'))
     notes = models.TextField(null=True, blank=True, verbose_name=_(u'Notes'))
 
     class Meta:

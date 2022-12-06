@@ -1,6 +1,6 @@
 import types
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.conf import settings
 from django.template.defaultfilters import stringfilter
 from django.template import Library, Node, Variable, VariableDoesNotExist
@@ -55,7 +55,7 @@ def return_attrib(obj, attrib, arguments={}):
                     return result()
             else:
                 return result
-    except Exception, err:
+    except Exception as err:
         if settings.DEBUG:
             return "Error: %s; %s" % (attrib, err)
         else:

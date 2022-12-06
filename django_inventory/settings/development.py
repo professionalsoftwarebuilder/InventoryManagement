@@ -20,7 +20,7 @@ TEMPLATE_LOADERS = (
 WSGI_AUTO_RELOAD = True
 
 if 'debug_toolbar' in INSTALLED_APPS:
-    MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware',]
     DEBUG_TOOLBAR_CONFIG = {
         'INTERCEPT_REDIRECTS': False,
     }

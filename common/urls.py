@@ -12,7 +12,7 @@ urlpatterns = [
     re_path(r'^password/change/done/$', password_change_done, (), name='password_change_done'),
 ]
 
-urlpatterns += ['',
+urlpatterns += [
     re_path(r'^login/$', auth_views.LoginView, {'template_name': 'common/login.html'}, name='login_view'),
     re_path(r'^logout/$', auth_views.LogoutView, {'next_page': reverse_lazy('home')}, name='logout_view'),
 
@@ -23,6 +23,6 @@ urlpatterns += ['',
     re_path(r'^password/reset/done/$', auth_views.PasswordResetDoneView, {'template_name': 'common/password_reset_done.html'}, name='password_reset_done_view'),
 ]
 
-urlpatterns += ['',
+urlpatterns += [
     re_path(r'^set_language/$', django.views.i18n.set_language, name='set_language'),
 ]

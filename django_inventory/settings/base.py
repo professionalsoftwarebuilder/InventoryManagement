@@ -66,7 +66,7 @@ INSTALLED_APPS = (
     'web_theme',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -76,7 +76,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'common.middleware.login_required_middleware.LoginRequiredMiddleware',
     'pagination.middleware.PaginationMiddleware',
-)
+]
 
 # MIDDLEWARE = [
 #     "django.middleware.security.SecurityMiddleware",
@@ -229,3 +229,5 @@ LOGIN_EXEMPT_URLS = (
 PAGINATION_DEFAULT_PAGINATION = 10
 # --------- Web theme app ---------------
 WEB_THEME = 'warehouse'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

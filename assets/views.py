@@ -13,9 +13,9 @@ from photos.views import generic_photos
 from generic_views.views import (GenericCreateView, GenericDetailView,
                                  GenericDeleteView, GenericListView,
                                  GenericUpdateView, generic_assign_remove)
-from inventory import location_filter
+from inventory.links import location_filter
 
-from . import state_filter
+from .links import state_filter
 from .forms import (ItemForm, ItemForm_view, ItemGroupForm, ItemGroupForm_view,
                     PersonForm, PersonForm_view)
 from .models import Person, Item, ItemGroup, ItemState, State

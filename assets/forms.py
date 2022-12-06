@@ -41,3 +41,4 @@ class ItemGroupForm(forms.ModelForm):
 class ItemGroupForm_view(DetailForm):
     class Meta:
         model = ItemGroup
+        fields = '__all__'

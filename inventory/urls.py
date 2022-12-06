@@ -21,7 +21,8 @@ from .views import (InventoryCreateView, InventoryDeleteView,
                     TemplateDetailView, TemplateItemsListView, TemplateListView,
                     TemplateOrphanListView, TemplateUpdateView,
                     TransactionDeleteView, TransactionDetailView,
-                    TransactionUpdateView)
+                    TransactionUpdateView, template_assign_remove_supply, template_assign_remove_suppliers,
+                    inventory_create_transaction, inventory_list_transactions, supplier_assign_remove_itemtemplates)
 
 urlpatterns = [
     url(r'^template/list/$', TemplateListView.as_view(), name='template_list'),
@@ -32,16 +33,16 @@ urlpatterns = [
     url(r'^template/(?P<object_id>\d+)/photos/$', generic_photos, {'model': ItemTemplate, 'max_photos': inventory_settings.MAX_TEMPLATE_PHOTOS, 'extra_context': {'object_name': _(u'item template')}}, 'template_photos'),
     url(r'^template/(?P<pk>\d+)/$', TemplateDetailView.as_view(), name='template_view'),
     url(r'^template/(?P<pk>\d+)/items/$', TemplateItemsListView.as_view(), name='template_items_list'),
-    url(r'^template/(?P<object_id>\d+)/assign/supplies$', 'template_assign_remove_supply', (), name='template_assign_supply'),
-    url(r'^template/(?P<object_id>\d+)/assign/suppliers/$', 'template_assign_remove_suppliers', (), name='template_assign_suppliers'),
+    url(r'^template/(?P<object_id>\d+)/assign/supplies$', template_assign_remove_supply, (), name='template_assign_supply'),
+    url(r'^template/(?P<object_id>\d+)/assign/suppliers/$', template_assign_remove_suppliers, (), name='template_assign_suppliers'),
 
     url(r'^inventory/list/$', InventoryListView.as_view(), name='inventory_list'),
     url(r'^inventory/create/$', InventoryCreateView.as_view(), name='inventory_create'),
     url(r'^inventory/(?P<pk>\d+)/$', InventoryDetailView.as_view(), name='inventory_view'),
     url(r'^inventory/(?P<pk>\d+)/update/$', InventoryUpdateView.as_view(), name='inventory_update'),
     url(r'^inventory/(?P<pk>\d+)/delete/$', InventoryDeleteView.as_view(), name='inventory_delete'),
-    url(r'^inventory/(?P<object_id>\d+)/transaction/create/$', 'inventory_create_transaction', (), 'inventory_create_transaction'),
-    url(r'^inventory/(?P<object_id>\d+)/transaction/list/$', 'inventory_list_transactions', (), 'inventory_list_transactions'),
+    url(r'^inventory/(?P<object_id>\d+)/transaction/create/$', inventory_create_transaction, (), 'inventory_create_transaction'),
+    url(r'^inventory/(?P<object_id>\d+)/transaction/list/$', inventory_list_transactions, (), 'inventory_list_transactions'),
 
     url(r'^transaction/(?P<pk>\d+)/$', TransactionDetailView.as_view(), name='inventory_transaction_view'),
     url(r'^transaction/(?P<pk>\d+)/update/$', TransactionUpdateView.as_view(), name='inventory_transaction_update'),
@@ -58,6 +59,6 @@ urlpatterns = [
     url(r'^supplier/create/$', SupplierCreateView.as_view(), name='supplier_create'),
     url(r'^supplier/(?P<pk>\d+)/update/$', SupplierUpdateView.as_view(), name='supplier_update'),
     url(r'^supplier/(?P<pk>\d+)/delete/$', SupplierDeleteView.as_view(), name='supplier_delete'),
-    url(r'^supplier/(?P<object_id>\d+)/assign/itemtemplates/$', 'supplier_assign_remove_itemtemplates', (), 'supplier_assign_itemtemplates'),
+    url(r'^supplier/(?P<object_id>\d+)/assign/itemtemplates/$', supplier_assign_remove_itemtemplates, (), 'supplier_assign_itemtemplates'),
     url(r'^supplier/(?P<pk>\d+)/purchase/orders/$', SupplierPurchaseOrdersListView.as_view(), name='supplier_purchase_orders'),
 ]

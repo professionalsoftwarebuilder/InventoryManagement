@@ -25,6 +25,7 @@ class PurchaseRequestForm_view(DetailForm):
 class PurchaseRequestItemForm(forms.ModelForm):
     class Meta:
         model = PurchaseRequestItem
+        fields = '__all__'
 
 
 class PurchaseOrderForm(forms.ModelForm):
