@@ -13,13 +13,13 @@ import os
 import sys
 from pathlib import Path
 
-import django
-django.setup()
+# import django
+# django.setup()
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+#BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'django_inventory', 'media')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -37,21 +37,20 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-
-    'django.contrib.sites',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'django.contrib.sites',
 
     'constance',
     'constance.backends.database',
 
-
     # 3rd party
-    'south',
+    #$# 010
+    #'south',
     'pagination',
     'photologue',
     # Project
@@ -114,11 +113,27 @@ WSGI_APPLICATION = 'django_inventory.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
+]
+
 
 
 # Internationalization
@@ -153,11 +168,13 @@ SITE_ID = 1
 
 STATIC_URL = '/static/'
 
-sys.path.append(os.path.join(BASE_DIR, 'django_inventory', 'apps'))
+#sys.path.append(os.path.join(BASE_DIR, 'django_inventory', 'apps'))
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'django_inventory', 'media')
 STATIC_ROOT = os.path.join(MEDIA_ROOT, 'static')
 
 MEDIA_URL = '/site_media/'
+
 
 # List of callables that know how to import templates from various sources.
 TEMPLATES = [
@@ -173,21 +190,6 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
             ],
         },
-    },
-]
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 

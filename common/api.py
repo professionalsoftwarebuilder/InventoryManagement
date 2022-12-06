@@ -30,4 +30,5 @@ def register_menu(links):
     for link in links:
         menu_links.append(link)
 
-    menu_links.sort(lambda x, y: 1 if x > y else -1, lambda x: x['position'] if 'position' in x else 1)
+    #$# 010
+    #menu_links.sort(lambda x, y: 1 if x > y else -1, lambda x: x['position'] if 'position' in x else 1)

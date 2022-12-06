@@ -1,4 +1,4 @@
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -13,9 +13,9 @@ class GenericPhotoManager(models.Manager):
 
 
 class GenericPhoto(ImageModel):
-    content_type = models.ForeignKey(ContentType)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey('content_type', 'object_id')
+    content_object = GenericForeignKey('content_type', 'object_id')
 
     title = models.CharField(max_length=10, null=True, blank=True, verbose_name=_(u'Title'))
     main = models.BooleanField(default=False, verbose_name=_(u'Main photo?'))
