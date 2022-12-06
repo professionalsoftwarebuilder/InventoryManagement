@@ -51,7 +51,7 @@ INSTALLED_APPS = (
     # 3rd party
     #$# 010
     #'south',
-    'pagination',
+    'dj_pagination',
     'photologue',
     # Project
     'photos',
@@ -74,8 +74,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'common.middleware.login_required_middleware.LoginRequiredMiddleware',
-    'pagination.middleware.PaginationMiddleware',
+    #'common.middleware.login_required_middleware.LoginRequiredMiddleware',
+    'dj_pagination.middleware.PaginationMiddleware',
 ]
 
 # MIDDLEWARE = [
@@ -104,6 +104,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 ROOT_URLCONF = 'django_inventory.urls'
 
@@ -174,24 +175,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'django_inventory', 'media')
 STATIC_ROOT = os.path.join(MEDIA_ROOT, 'static')
 
 MEDIA_URL = '/site_media/'
-
-
-# List of callables that know how to import templates from various sources.
-TEMPLATES = [
-    {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "context_processors": [
-                "django.template.context_processors.debug",
-                "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
-                "django.contrib.messages.context_processors.messages",
-            ],
-        },
-    },
-]
 
 LOGIN_URL = reverse_lazy('login_view')
 LOGIN_REDIRECT_URL = reverse_lazy('home')

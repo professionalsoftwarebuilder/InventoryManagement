@@ -9,18 +9,26 @@
 {% load generic_views_tags %}
 {% load generic_views_helpers %}
 
-{% block html_title %}{% project_name %}{% block title %}{% endblock %}{% endblock %}
+{% block html_title %}
+    {% project_name %}
+    {% block title %} xxx
+    {% endblock %}
+{% endblock %}
 
-{% block web_theme_project_name %}{% project_name %}{% endblock %}
+{% block web_theme_project_name %}
+    {% project_name %}
+{% endblock %}
 
 {% block web_theme_stylesheets %}
     <link rel="stylesheet" href="{% static 'main/css/override.css' %}" type="text/css" media="screen" />
     <link rel="stylesheet" href="{% static 'main/css/famfamfam-silk-sprite.css' %}" type="text/css" media="screen" />
-    {% block stylesheets %}{% endblock %}
+    {% block stylesheets %}
+    {% endblock %}
 {% endblock %}
 
 {% block web_theme_javascript %}
-    {% block javascript %}{% endblock %}
+    {% block javascript %}
+    {% endblock %}
 {% endblock %}
 
 {% block web_theme_user_navigation %}
@@ -112,9 +120,15 @@
 {% endblock %}
 
 
-{% block web_theme_content %}{% block content %}{% endblock %}{% endblock %}
+{% block web_theme_content %}
+    {% block content %}
+    {% endblock %}
+{% endblock %}
 
-{% block web_theme_footer %}{% block footer %}{% endblock %}{% endblock %}
+{% block web_theme_footer %}
+    {% block footer %}
+    {% endblock %}
+{% endblock %}
 
 {% comment %}
         <script type="text/javascript" charset="utf-8" src="{{ MEDIA_URL }}skins/pilu-web-app/javascripts/jquery.scrollTo.js"></script>
