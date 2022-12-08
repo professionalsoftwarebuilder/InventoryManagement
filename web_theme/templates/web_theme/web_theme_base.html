@@ -36,7 +36,7 @@
                     {% endblock %}
                 </div>
             {% endif %}
-            {% if not user.is_anonymous %}
+            {% if user.is_anonymous %}
                 <div id="header">
                     <h1><a href="{% url 'home' %}">{% block web_theme_project_name %}{% endblock %}</a></h1>
                         <div id="user-navigation">

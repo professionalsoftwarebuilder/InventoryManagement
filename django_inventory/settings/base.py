@@ -51,7 +51,6 @@ INSTALLED_APPS = (
     # 3rd party
     #$# 010
     #'south',
-    'dj_pagination',
     'photologue',
     # Project
     'photos',
@@ -74,8 +73,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    #'common.middleware.login_required_middleware.LoginRequiredMiddleware',
-    'dj_pagination.middleware.PaginationMiddleware',
 ]
 
 # MIDDLEWARE = [
@@ -203,13 +200,16 @@ LOGIN_EXEMPT_URLS = (
     r'^password/reset/complete/$',
     r'^password/reset/done/$',
 )
+
 # --------- Generic photos --------------
 # PHOTOS_MAX_PHOTO_SIZE = 1000000
 # INVENTORY_MAX_TEMPLATE_PHOTOS = 5
 # ASSETS_MAX_ASSET_PHOTOS = 5
 # ASSETS_MAX_PERSON_PHOTOS = 5
 # --------- Pagination ------------------
+
 PAGINATION_DEFAULT_PAGINATION = 10
+
 # --------- Web theme app ---------------
 WEB_THEME = 'warehouse'
 
