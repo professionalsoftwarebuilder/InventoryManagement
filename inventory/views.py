@@ -26,6 +26,7 @@ from .models import (Inventory, InventoryTransaction, ItemTemplate, Location,
 class InventoryCreateView(GenericCreateView):
     extra_context = {'object_name': _(u'Inventory')}
     model = Inventory
+    fields = '__all__'
 
 
 class InventoryDeleteView(GenericDeleteView):
@@ -286,7 +287,7 @@ def inventory_list_transactions(request, object_id):
                 ],
             }
         ]
-    }, context_instance=RequestContext(request))
+    }, )
 
 
 def inventory_create_transaction(request, object_id):
@@ -306,4 +307,4 @@ def inventory_create_transaction(request, object_id):
         'form': form,
         'object': inventory,
         'title': _(u'Add new transaction'),
-    }, context_instance=RequestContext(request))
+    }, )

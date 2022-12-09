@@ -1,9 +1,6 @@
 from __future__ import absolute_import
-
 from django.utils.translation import ugettext_lazy as _
-
 from common.api import register_links, register_menu
-
 from .models import State, Person, Item, ItemGroup
 
 state_list = {'text': _('Assets states'), 'view': 'state_list', 'famfam': 'error_go'}

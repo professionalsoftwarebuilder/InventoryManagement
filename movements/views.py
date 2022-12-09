@@ -200,7 +200,7 @@ def purchase_request_view(request, object_id):
             #    'extra_columns':[{'name':_(u'issue data'), 'attribute':'issue_date'}],
             #}
         ]
-    }, context_instance=RequestContext(request))
+    }, )
 
 
 def purchase_request_item_create(request, object_id):
@@ -216,10 +216,10 @@ def purchase_request_item_create(request, object_id):
     else:
         form = PurchaseRequestItemForm(initial={'purchase_request': purchase_request})
 
-    return render(render, 'generic_views/generic_form.html', {
+    return render(request, 'generic_views/generic_form.html', {
         'form': form,
         'title': _(u'add new purchase request item'),
-    }, context_instance=RequestContext(request))
+    })
 
 
 def purchase_request_close(request, object_id):
@@ -243,7 +243,7 @@ def purchase_request_close(request, object_id):
         return redirect(purchase_request.get_absolute_url())
 
     return render(request, 'generic_views/generic_confirm.html', data,
-        context_instance=RequestContext(request))
+        )
 
 
 def purchase_request_open(request, object_id):
@@ -267,7 +267,7 @@ def purchase_request_open(request, object_id):
         return redirect(purchase_request.get_absolute_url())
 
     return render(request, 'generic_views/generic_confirm.html', data,
-        context_instance=RequestContext(request))
+        )
 
 
 def purchase_order_wizard(request, object_id):
@@ -349,7 +349,7 @@ def purchase_order_wizard(request, object_id):
         'form_display_mode_table': True,
         'title': _(u'Purchase order wizard, using purchase request source: <a href="%(url)s">%(name)s</a>') % {'url': purchase_request.get_absolute_url(), 'name': purchase_request},
         'object': purchase_request,
-    }, context_instance=RequestContext(request))
+    }, )
 
 
 def purchase_order_view(request, object_id):
@@ -372,7 +372,7 @@ def purchase_order_view(request, object_id):
                 {'name': _(u'Active'), 'attribute': encapsulate(lambda x: _(u'Open') if x.active else _(u'Closed'))}
             ],
         }]
-    }, context_instance=RequestContext(request))
+    }, )
 
 
 def purchase_order_close(request, object_id):
@@ -401,7 +401,7 @@ def purchase_order_close(request, object_id):
         return redirect(purchase_order.get_absolute_url())
 
     return render(request, 'generic_views/generic_confirm.html', data,
-        context_instance=RequestContext(request))
+        )
 
 
 def purchase_order_open(request, object_id):
@@ -425,7 +425,7 @@ def purchase_order_open(request, object_id):
         return redirect(purchase_order.get_absolute_url())
 
     return render(request, 'generic_views/generic_confirm.html', data,
-        context_instance=RequestContext(request))
+        )
 
 
 def purchase_order_transfer(request, object_id):
@@ -535,8 +535,7 @@ def transfer_to_inventory(request, object_to_transfer):
         'form_display_mode_table': True
     })
 
-    return render(request, 'generic_views/generic_form.html', context,
-        context_instance=RequestContext(request))
+    return render(request, 'generic_views/generic_form.html', context,)
 
 
 def purchase_order_item_transfer(request, object_id):
@@ -574,8 +573,7 @@ def purchase_order_item_close(request, object_id):
         messages.success(request, msg, fail_silently=True)
         return redirect(purchase_order_item.get_absolute_url())
 
-    return render(request, 'generic_views/generic_confirm.html', data,
-        context_instance=RequestContext(request))
+    return render(request, 'generic_views/generic_confirm.html', data,)
 
 
 def purchase_order_item_create(request, object_id):
@@ -594,4 +592,4 @@ def purchase_order_item_create(request, object_id):
     return render(request, 'generic_views/generic_form.html', {
         'form': form,
         'title': _(u'Add new purchase order item'),
-    }, context_instance=RequestContext(request))
+    })

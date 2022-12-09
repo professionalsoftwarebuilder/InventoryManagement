@@ -1,7 +1,13 @@
 |PyPI badge| |Installs badge| |License badge| |Wheel badge|
 
-Django Inventory
+A Django Inventory system
 ----------------
+
+Please pay attention:
+This is a partially updated version of:
+Code4PuertoRico/django-inventory
+Which seems to have been abondoned.
+The project has been made to startup under django 3.2.15 but has been "resuscitated" with different tweaks.
 
 Free Open Source Inventory and Fixed Assets Control System
 

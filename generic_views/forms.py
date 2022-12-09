@@ -31,8 +31,11 @@ class DetailSelectMultiple(forms.widgets.SelectMultiple):
         self.queryset=queryset
         super(DetailSelectMultiple, self).__init__(*args, **kwargs)
 
-    def render(self, name, value, attrs=None, choices=()):
-        if value is None: value = ''
+    #$# 010
+    def render(self, name, value, attrs=None, choices=(), renderer=None):
+        if value is None:
+            value = ''
+
         #final_attrs = self.build_attrs(attrs, name=name)
         output = u'<ul class="list">'
         options = None
@@ -54,7 +57,7 @@ class DetailSelectMultiple(forms.widgets.SelectMultiple):
                     except AttributeError:
                         output += u'<li>%s</li>' % (string)
                 else:
-                 output += u'<li>%s</li>' % string
+                    output += u'<li>%s</li>' % string
         else:
             output += u'<li>%s</li>' % _(u"None")
         return mark_safe(output + u'</ul>\n')

@@ -82,4 +82,4 @@ def search(request):
                             'extra_columns': [{'name':_(u'type'), 'attribute': encapsulate(lambda x: x._meta.verbose_name[0].upper() + x._meta.verbose_name[1:])}],
                             'title': _(u'results with: %s') % query_string
                             },
-                          context_instance=RequestContext(request))
+                          )

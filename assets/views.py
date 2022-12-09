@@ -200,7 +200,7 @@ def item_setstate(request, object_id, state_id):
         return HttpResponseRedirect(next)
 
     return render(request, 'generic_view/generic_confirm.html', data,
-    context_instance=RequestContext(request))
+    )
 
 
 def item_remove_state(request, object_id, state_id):
@@ -228,7 +228,7 @@ def item_remove_state(request, object_id, state_id):
         return HttpResponseRedirect(next)
 
     return render(request, 'generic_view/generic_confirm.html', data,
-    context_instance=RequestContext(request))
+    )
 
 
 def group_assign_remove_item(request, object_id):

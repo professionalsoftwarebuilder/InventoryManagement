@@ -67,7 +67,7 @@ def import_file(request):
         'form': form,
         'title': _(u'Upload a file to import'),
     },
-    context_instance=RequestContext(request))    
+    )
     
     
 def download_last_settings(request):

@@ -1,7 +1,6 @@
 {% load i18n %}
 
 {% load generic_views_helpers %}
-{% load pagination_tags %}
 {% load navigation %}
 
 {% if side_bar %}
@@ -12,7 +11,9 @@
     <div class="content">
         <p>
 {% else %}
-    {% autopaginate object_list %}
+    {% comment %}
+            {% autopaginate object_list %}
+    {% endcomment %}
     <div class="content">
     <h2 class="title">
         {% ifnotequal page_obj.paginator.num_pages 1 %}
@@ -67,7 +68,10 @@
         </tbody>
     </table>
   </form>
+    {% comment %}
+
     {% paginate %}
+    {% endcomment %}
 </div>
 </div>
 

@@ -81,8 +81,7 @@ def generic_photos(request, model, object_id, max_photos=5, extra_context={}):
         # subform_dict is persistent between views, clear it explicitly
         extra_context.update({'subforms_dict': []})
 
-    return render(request, 'photos/photos.html', extra_context,
-        context_instance=RequestContext(request))
+    return render(request, 'photos/photos.html', extra_context)
 
 
 def generic_photo_mark_main(request, object_id):
@@ -101,7 +100,7 @@ def generic_photo_mark_main(request, object_id):
         'next': request.META.get('HTTP_REFERER', reverse('home')),
         'previous': request.META.get('HTTP_REFERER', reverse('home')),
         'object': photo.content_object,
-    }, context_instance=RequestContext(request))
+    })
 
 
 def generic_photo_delete(request, object_id):
@@ -130,4 +129,4 @@ def generic_photo_delete(request, object_id):
         'title': _(u'Are you sure you wish to delete this photo?'),
         'object': photo.content_object,
         'delete_view': True,
-    }, context_instance=RequestContext(request))
+    })
