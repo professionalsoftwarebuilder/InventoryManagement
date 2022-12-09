@@ -4,10 +4,11 @@ A Django Inventory system
 ----------------
 
 Please pay attention:
-This is a partially updated version of:
-Code4PuertoRico/django-inventory
-Which seems to have been abondoned.
-The project has been made to startup under django 3.2.15 but has been "resuscitated" with different tweaks.
+  This is a partially updated version of:
+  Code4PuertoRico/django-inventory
+  Which seems to have been abondoned.
+
+  The project has been "resuscitated" with different tweaks under django 3.2.15.
 
 Free Open Source Inventory and Fixed Assets Control System
 
